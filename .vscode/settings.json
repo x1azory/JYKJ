@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "bsp_gpio.h": "c",
+        "stm32f10x_gpio.h": "c"
+    }
+}
