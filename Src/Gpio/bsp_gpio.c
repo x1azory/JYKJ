@@ -15,13 +15,14 @@
  * 
  */
 
+GPIO_InitTypeDef Gpio_Group_A[Gpio_B_MAX] 
 
 GPIO_InitTypeDef Gpio_Group_B[Gpio_B_MAX] = 
 {
 /*   GPIO_Pin        GPIO_Speed            GPIO_Mode        */
-    {GPIO_Pin_6,     GPIO_Speed_50MHz,     GPIO_Mode_Out_PP},   /* Mcu_Work_Led */
-    {GPIO_Pin_9,     GPIO_Speed_50MHz,     GPIO_Mode_Out_PP},   /* KEY_Num2     */
-    {GPIO_Pin_10,    GPIO_Speed_50MHz,     GPIO_Mode_Out_PP},   /* KEY_Num3     */
+    {GPIO_Pin_6,     GPIO_Speed_50MHz,     GPIO_Mode_Out_PP     },   /* Mcu_Work_Led */
+    {GPIO_Pin_9,     GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},   /* KEY_Num2     */
+    {GPIO_Pin_10,    GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},   /* KEY_Num3     */
 };
 
 
