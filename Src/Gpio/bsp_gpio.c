@@ -15,7 +15,13 @@
  * 
  */
 
-GPIO_InitTypeDef Gpio_Group_A[Gpio_B_MAX] 
+GPIO_InitTypeDef Gpio_Group_A[] = 
+{
+    /*   GPIO_Pin        GPIO_Speed            GPIO_Mode        */
+    {GPIO_Pin_12,     GPIO_Speed_50MHz,     GPIO_Mode_Out_PP     },   /* Mcu_Work_Led */
+    {GPIO_Pin_11,     GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},   /* KEY_Num2     */
+    {GPIO_Pin_8,      GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},    /* KEY_Num3     */
+};
 
 GPIO_InitTypeDef Gpio_Group_B[Gpio_B_MAX] = 
 {
@@ -45,7 +51,7 @@ void bsp_Gpio_Init(void)
 
 void bsp_MainFunction(void)
 {
-    GPIO_ResetBits(GPIOB,GPIO_Pin_6);
+    GPIO_SetBits(GPIOB,GPIO_Pin_6);
 }
 
 /**

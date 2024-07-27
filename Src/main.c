@@ -14,9 +14,12 @@ int main(void)
 {
     bsp_Gpio_Init();
 
-    bsp_MainFunction();
-    
-    return 0;
+		while (1)
+		{
+			bsp_MainFunction();
+		}
+
+   
 }
 
 
