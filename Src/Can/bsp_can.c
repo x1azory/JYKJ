@@ -29,6 +29,19 @@ CAN_InitTypeDef Can_Init_st =
     /*.CAN_TXFP      = */DISABLE
 };
 
+CAN_FilterInitTypeDef Can_Filter_st = 
+{
+    /* CAN_FilterIdHigh         */  (((((uint32_t)0x123)<<3)|CAN_ID_STD|CAN_RTR_Data)&0xFFFF0000)>>16,
+    /* CAN_FilterIdLow          */  (((((uint32_t)0x123)<<3)|CAN_ID_STD|CAN_RTR_Data)&0x0000FFFF),
+    /* CAN_FilterMaskIdHigh     */  (((((uint32_t)0x7ff)<<3)|CAN_ID_STD|CAN_RTR_Data)&0xFFFF0000)>>16,
+    /* CAN_FilterMaskIdLow      */  (((((uint32_t)0x7ff)<<3)|CAN_ID_STD|CAN_RTR_Data)&0x0000FFFF),
+    /* CAN_FilterFIFOAssignment */  CAN_Filter_FIFO0,
+    /* CAN_FilterNumber         */  CAN_FilterMode_IdList,
+    /* CAN_FilterMode           */  CAN_FilterMode_IdMask,
+    /* CAN_FilterScale          */  CAN_FilterScale_16bit,
+    /* CAN_FilterActivation     */  ENABLE
+};
+
 void bsp_can_vInit(void)
 {
     CAN_DeInit(CAN1);
@@ -44,6 +57,9 @@ void bsp_can_vInit(void)
     /* Interrupt enable */
     CAN_NVIC_Configuration();
     CAN_ITConfig(CAN1,CAN_IT_FMP0,ENABLE);
+
+    /*  */
+    CAN_FilterInit(&Can_Filter_st);
 }
 
 void CAN_NVIC_Configuration(void) 
@@ -73,19 +89,24 @@ void bsp_can_Set_Mode(Can_Mode_ten mode)
     }
 }
 
-
+static CanTxMsg Msg_A  = {0x132,0,CAN_ID_STD,CAN_RTR_Data,8,1,2,3,4,5,6,7,8};
+uint8_t booooo = 0;
 void bsp_Can_Transmit(void)
 {
-    static CanTxMsg Msg_A  = {0x132,0,CAN_ID_STD,CAN_RTR_Data,8,1,2,3,4,5,6,7,8};
+    uint8_t status;
     Msg_A.Data[1]++;
-    CAN_Transmit(CAN1,&Msg_A);
+
+    status = CAN_Transmit(CAN1,&Msg_A);
+
+    
+
+/*     while(CAN_TransmitStatus(CAN1,status) == CAN_TxStatus_Ok)
+    {
+        return;
+    } */
 }
 
-CanRxMsg can_rx_msg;
-void CAN1_RX1_IRQHandler(void)
-{
-    CAN_Receive(CAN1,CAN_FIFO0,&can_rx_msg);
-}
+
 
 /**
  * @brief End

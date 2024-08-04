@@ -18,6 +18,12 @@
 
 #define MCU_1MS   (72 * 1000000 / 1000)
 
+Task_tst Task_st[Task_Tol] = 
+{
+    {0 , 5},
+    {0 , 10},
+};
+
 void SysTick_Init(void)
 {
     uint32_t u32tick = MCU_1MS;

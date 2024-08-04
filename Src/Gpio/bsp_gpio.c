@@ -59,7 +59,7 @@ void bsp_Gpio_Init(void)
 
 void Gpio_vMainFunction(void)
 {
-    if(Mcu_Tick%2000<1000)
+    if(Mcu_Tick%10000<1000)
     {
         GPIO_SetBits(GPIOB,GPIO_Pin_6);
     }

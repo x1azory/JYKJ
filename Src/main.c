@@ -20,9 +20,10 @@ int main(void)
     {
         bsp_vMainFunction();
 
-        if(Mcu_Tick==5000)
+        if( Task_st[Task_5ms_].Task_ == 1)
         {
             bsp_Can_Transmit();
+            Task_st[Task_5ms_].Task_ = 0;
         }
     }
 

@@ -25,6 +25,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "bsp.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -138,6 +139,21 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   Mcu_Tick++;
+
+  if(0 == Mcu_Tick%Task_st[Task_5ms_].Period)
+  {
+    Task_st[Task_5ms_].Task_ = 1;
+  }
+  if(0 == Mcu_Tick%Task_st[Task_10ms_].Period)
+  {
+    Task_st[Task_10ms_].Task_ = 1;
+  }
+}
+
+CanRxMsg can_rx_msg = {0};
+void USB_LP_CAN1_RX0_IRQHandler(void)
+{
+    CAN_Receive(CAN1,CAN_FIFO0,&can_rx_msg);
 }
 
 /******************************************************************************/
