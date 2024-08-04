@@ -13,6 +13,15 @@
 
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
+#include "stm32f10x_it.h"
+
+typedef enum
+{
+    Can_Tx_Pin = 0,
+    Can_Rx_Pin,
+    Can_Standby_Pin,
+    Gpio_A_MAX
+}Gpio_A_Type;
 
 typedef enum
 {
@@ -23,7 +32,7 @@ typedef enum
 }Gpio_B_ten;
 
 extern void bsp_Gpio_Init(void);
-extern void bsp_MainFunction(void);
+extern void Gpio_vMainFunction(void);
 
 #endif
 /**

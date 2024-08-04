@@ -10,25 +10,27 @@
  */
 #include "bsp_gpio.h"
 
+
 /**
  * @brief notice : when GPIO set mode_in, other config is not use,we just cfg it  to maintain aesthetics.
  * 
  */
 
-GPIO_InitTypeDef Gpio_Group_A[] = 
+GPIO_InitTypeDef Gpio_Group_A[Gpio_A_MAX] = 
 {
     /*   GPIO_Pin        GPIO_Speed            GPIO_Mode        */
-    {GPIO_Pin_12,     GPIO_Speed_50MHz,     GPIO_Mode_Out_PP     },   /* Mcu_Work_Led */
-    {GPIO_Pin_11,     GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},   /* KEY_Num2     */
-    {GPIO_Pin_8,      GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},    /* KEY_Num3     */
+    {GPIO_Pin_12,     GPIO_Speed_50MHz,     GPIO_Mode_AF_PP      },   /* Can_Tx_Pin      */
+    {GPIO_Pin_11,     GPIO_Speed_50MHz,     GPIO_Mode_IPU},           /* Can_Rx_Pin      */
+    {GPIO_Pin_8,      GPIO_Speed_50MHz,     GPIO_Mode_Out_PP     },   /*Can_Standby_Pin  */
 };
+
 
 GPIO_InitTypeDef Gpio_Group_B[Gpio_B_MAX] = 
 {
 /*   GPIO_Pin        GPIO_Speed            GPIO_Mode        */
     {GPIO_Pin_6,     GPIO_Speed_50MHz,     GPIO_Mode_Out_PP     },   /* Mcu_Work_Led */
-    {GPIO_Pin_9,     GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},   /* KEY_Num2     */
-    {GPIO_Pin_10,    GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING},   /* KEY_Num3     */
+    {GPIO_Pin_2,     GPIO_Speed_50MHz,     GPIO_Mode_IPD},           /* KEY_Num2     */
+    /*{GPIO_Pin_10,    GPIO_Speed_50MHz,     GPIO_Mode_IN_FLOATING}, */  /* KEY_Num3     */
 };
 
 
@@ -42,16 +44,29 @@ void bsp_Gpio_Init(void)
                            RCC_APB2Periph_GPIOB \
                            ,ENABLE);
 
-    for(; i<Gpio_B_MAX; i++)
+    for(; i<Gpio_A_MAX; i++)
+    {
+        GPIO_Init(GPIOA,&Gpio_Group_A[i]);
+    }
+
+    for(i = 0; i<Gpio_B_MAX; i++)
     {
         GPIO_Init(GPIOB,&Gpio_Group_B[i]);
     }
+    
 }
 
 
-void bsp_MainFunction(void)
+void Gpio_vMainFunction(void)
 {
-    GPIO_SetBits(GPIOB,GPIO_Pin_6);
+    if(Mcu_Tick%2000<1000)
+    {
+        GPIO_SetBits(GPIOB,GPIO_Pin_6);
+    }
+    else
+    {
+        GPIO_ResetBits(GPIOB,GPIO_Pin_6);
+    }
 }
 
 /**

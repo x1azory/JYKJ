@@ -8,16 +8,23 @@
  * @copyright Copyright (c) 2024
  * 
  */
-#include "bsp_gpio.h"
+
+#include "bsp.h"
+
 
 int main(void)
 {
-    bsp_Gpio_Init();
+    bsp_vInit();
 
-		while (1)
-		{
-			bsp_MainFunction();
-		}
+    while (1)
+    {
+        bsp_vMainFunction();
+
+        if(Mcu_Tick==5000)
+        {
+            bsp_Can_Transmit();
+        }
+    }
 
    
 }
